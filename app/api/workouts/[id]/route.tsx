@@ -31,3 +31,25 @@ export async function GET(
         return NextResponse.json({error: 'Internal server error'}, {status: 500})
     }
 }
+
+export async function PUT(
+    request: NextRequest,
+    {params}: {params: {id: string}}
+) {
+    try {
+        const id = parseInt(params.id)
+        const existing = db.prepare('SELECT * FROM Workout WHERE id = ?').get(id) as any
+        if (!existing)
+            return NextResponse.json({error: 'Workout not found'}, {status: 404})
+
+        const body = await request.json()
+        db.prepare(
+            'UPDATE Workout SET name = ?, bodyPart = ?, reps = ?, breaks = ?, series = ?, weight = ?, calories = ? WHERE id = ?'
+        ).run(body.name, body.bodyPart, body.reps, body.breaks, body.series, body.weight, body.calories, id)
+
+        const updated = db.prepare('SELECT * FROM Workout WHERE id = ?').get(id)
+        return NextResponse.json(updated)
+    } catch (error) {
+        return NextResponse.json({error: 'Internal server error'}, {status: 500})
+    }
+}

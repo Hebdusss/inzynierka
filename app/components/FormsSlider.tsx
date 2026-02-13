@@ -4,6 +4,7 @@ import NewWorkoutsAndDiets from './Workouts/NewWorkoutsAndDiets'
 import NewSetsForm from './Sets/NewSetForm'
 import FormsHeader from './FormsHeader'
 import { Diet, Workout } from '../types/types'
+import { useLang } from '../i18n/LangContext'
 
 interface Props {
     email: string,
@@ -14,6 +15,7 @@ interface Props {
 
 const FormsSlider = ({email, userId, workouts, diets}: Props) => {
     const [context, setContext] = useState<boolean>(true)
+    const { t } = useLang()
 
   return (
     <div className='space-y-6'>
@@ -26,7 +28,7 @@ const FormsSlider = ({email, userId, workouts, diets}: Props) => {
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              Workouts & Diets
+              {t('forms.workoutsAndDietsTab')}
             </button>
             <button
               onClick={() => setContext(false)}
@@ -36,18 +38,18 @@ const FormsSlider = ({email, userId, workouts, diets}: Props) => {
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              Sets
+              {t('forms.setsTab')}
             </button>
         </div>
 
         {context ? 
         <>
-            <FormsHeader title={'workouts and diets'}/>
+            <FormsHeader title={t('forms.workoutsAndDiets')}/>
             <NewWorkoutsAndDiets email={email}/>
         </>
         :
         <>
-            <FormsHeader title={'sets'}/>
+            <FormsHeader title={t('forms.setsTab').toLowerCase()}/>
             <NewSetsForm email={email} userId={userId} w={workouts} d={diets}/>
         </>
         }

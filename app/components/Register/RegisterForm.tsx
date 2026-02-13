@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useLang } from '../../i18n/LangContext'
 
 export const matchPass = (p1: string, p2: string) => {
     if(p1 !== p2) return false
@@ -11,6 +12,7 @@ export const matchPass = (p1: string, p2: string) => {
 const RegisterForm = () => {
 
     const router = useRouter();
+    const { t } = useLang()
 
     const [mail, setMail] = useState<string>('')
     const [pass, setPass] = useState<string>('')
@@ -26,19 +28,19 @@ const RegisterForm = () => {
 
     const validation = () => {
         if(!mail || !pass || !repPass) {
-            setError('Fill all fields')
+            setError(t('register.fillAll'))
             return false
         }
         if(!isValidEmail(mail)){
-            setError('Email incorrect')
+            setError(t('register.emailIncorrect'))
             return false
         }
         if(pass.length < 8) {
-            setError('Password need to be at least 8 char lenght')
+            setError(t('register.passLength'))
             return false
         }
         if(!matchPass(pass, repPass)){
-            setError('Passwords dont match')
+            setError(t('register.passNoMatch'))
             return false
         }
       
@@ -70,7 +72,7 @@ const RegisterForm = () => {
                     setError(res.error)
                 }
             } catch {
-                setError('Something went wrong')
+                setError(t('register.failed'))
             } finally {
                 setLoading(false)
             }
@@ -81,7 +83,7 @@ const RegisterForm = () => {
   return (
     <div className='card-glass p-6 space-y-5'>
         <div>
-            <label className="text-sm font-medium text-slate-600 mb-1.5 block">Email</label>
+            <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('register.email')}</label>
             <input 
             type="text" 
             placeholder="you@example.com" 
@@ -90,19 +92,19 @@ const RegisterForm = () => {
             onChange={(e) => setMail(e.target.value)} />
         </div>
         <div>
-            <label className="text-sm font-medium text-slate-600 mb-1.5 block">Password</label>
+            <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('register.password')}</label>
             <input 
             type="password" 
-            placeholder="Min. 8 characters" 
+            placeholder={t('register.passwordPlaceholder')} 
             className="input-modern"
             value={pass}
             onChange={(e) => setPass(e.target.value)} />
         </div>
         <div>
-            <label className="text-sm font-medium text-slate-600 mb-1.5 block">Repeat password</label>
+            <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('register.repeatPassword')}</label>
             <input 
             type="password" 
-            placeholder="Repeat password" 
+            placeholder={t('register.repeatPlaceholder')} 
             className="input-modern"
             value={repPass}
             onChange={(e) => setRepPass(e.target.value)} />
@@ -116,11 +118,11 @@ const RegisterForm = () => {
         )}
 
         <button className="btn-primary w-full" onClick={() => handleSubmit()} disabled={loading}>
-            {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Create account'}
+            {loading ? <span className='loading loading-spinner loading-sm'></span> : t('register.submit')}
         </button>
 
         <p className='text-center text-sm text-slate-500'>
-          Already have an account? <a href='/auth/signin' className='text-brand-600 hover:text-brand-700 font-medium'>Sign in</a>
+          {t('register.hasAccount')} <a href='/auth/signin' className='text-brand-600 hover:text-brand-700 font-medium'>{t('register.signIn')}</a>
         </p>
     </div>
   )

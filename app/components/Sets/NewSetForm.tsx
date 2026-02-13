@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Diet, Workout } from '../../types/types'
 import DietToSetCard from './DietToSetCard'
 import { postSet } from '../../Utils/utils'
+import { useLang } from '../../i18n/LangContext'
 
 interface Props {
     email: string,
@@ -25,6 +26,7 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
     const [error, setError] = useState<string>('')
     const [success, setSuccess] = useState<string>('')
     const [loading, setLoading] = useState(false)
+    const { t } = useLang()
 
     const addEntity =  (id: number, state: boolean) => {
         if(content) {
@@ -59,15 +61,15 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
 
     const validation = () => {
         if(!title) {
-            setError('Fill the title field')
+            setError(t('newSet.fillTitle'))
             return false
         }
         if(workoutsToAdd.length < 1){
-            setError('Choose at least 1 workout');
+            setError(t('newSet.chooseWorkout'));
             return false
         } 
         if(dietsToAdd.length < 1){
-            setError('Choose at least 1 diet');
+            setError(t('newSet.chooseDiet'));
            return false
         } 
 
@@ -116,11 +118,11 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
                 if(res.error) {
                     setError(res.error)
                 } else {
-                    setSuccess('Set created successfully!')
+                    setSuccess(t('newSet.success'))
                     clearForm()
                 }
             } catch {
-                setError('Failed to create set')
+                setError(t('newSet.failed'))
             } finally {
                 setLoading(false)
             }
@@ -131,10 +133,10 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
   return (
     <div className='card-glass p-6 space-y-5'>
         <div>
-            <label className="text-sm font-medium text-slate-600 mb-1.5 block">Set name</label>
+            <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('newSet.name')}</label>
             <input 
             type="text" 
-            placeholder="e.g. Full Body Monday" 
+            placeholder={t('newSet.namePlaceholder')} 
             className="input-modern"
             value={title}
             onChange={(e) => setTitle(e.target.value)} />
@@ -150,7 +152,7 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
                   : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
               }`}
             >
-              Workouts ({workoutsToAdd.length})
+              {t('newSet.workoutsTab')} ({workoutsToAdd.length})
             </button>
             <button
               type='button'
@@ -161,27 +163,27 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
                   : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
               }`}
             >
-              Diets ({dietsToAdd.length})
+              {t('newSet.dietsTab')} ({dietsToAdd.length})
             </button>
         </div>
 
         <div>
           {content ? 
               <div>
-                  <p className='text-sm font-medium text-slate-600 mb-2'>Select workouts</p>
+                  <p className='text-sm font-medium text-slate-600 mb-2'>{t('newSet.selectWorkouts')}</p>
                   <div className='overflow-auto space-y-2 max-h-72 pr-1'>
                       {workouts && workouts.length > 0 
                         ? workouts.map(w => <WorkoutToSetCard key={w.id} data={w} onChange={addEntity} checkIfExist={checkIfExist}/>) 
-                        : <p className='text-sm text-slate-400 text-center py-6'>No workouts available</p>}
+                        : <p className='text-sm text-slate-400 text-center py-6'>{t('newSet.noWorkoutsAvail')}</p>}
                   </div>
               </div>
               :
               <div>
-                  <p className='text-sm font-medium text-slate-600 mb-2'>Select diets</p>
+                  <p className='text-sm font-medium text-slate-600 mb-2'>{t('newSet.selectDiets')}</p>
                   <div className='overflow-auto space-y-2 max-h-72 pr-1'>
                       {diets && diets.length > 0 
                         ? diets.map(d => <DietToSetCard key={d.id} data={d} onChange={addEntity} checkIfExist={checkIfExist} />) 
-                        : <p className='text-sm text-slate-400 text-center py-6'>No diets available</p>}
+                        : <p className='text-sm text-slate-400 text-center py-6'>{t('newSet.noDietsAvail')}</p>}
                   </div>
               </div>
           }
@@ -199,7 +201,7 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
                 isPublic ? 'translate-x-5' : 'translate-x-0'
               }`} />
             </button>
-            <span className='text-sm text-slate-600'>Public set</span>
+            <span className='text-sm text-slate-600'>{t('newSet.publicSet')}</span>
         </div>
 
         {error && (
@@ -216,7 +218,7 @@ const NewSetForm = ({email, userId, w, d}: Props) => {
         )}
 
         <button className="btn-primary w-full" onClick={() => handleSubmit()} disabled={loading}>
-            {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Create set'}
+            {loading ? <span className='loading loading-spinner loading-sm'></span> : t('newSet.submit')}
         </button>
     </div>
   )

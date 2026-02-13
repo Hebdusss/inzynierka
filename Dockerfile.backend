@@ -1,0 +1,44 @@
+# ---- Stage 1: Build ----
+FROM node:18-alpine AS builder
+WORKDIR /app
+
+COPY server-rest/package.json server-rest/package-lock.json* ./server-rest/
+COPY server-rest/tsconfig.json ./server-rest/
+
+# Install dependencies (including dev for ts compilation)
+WORKDIR /app/server-rest
+RUN npm ci
+
+# Copy source
+COPY server-rest/ ./
+
+# Compile TypeScript
+RUN npx tsc --outDir dist
+
+# ---- Stage 2: Runner ----
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Install only production deps
+COPY server-rest/package.json server-rest/package-lock.json* ./
+RUN npm ci --omit=dev
+
+# Copy compiled JS
+COPY --from=builder /app/server-rest/dist ./dist
+
+# Copy database from main project
+COPY prisma/dev.db ./prisma/dev.db
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 expressjs && \
+    chown -R expressjs:nodejs /app
+
+USER expressjs
+
+EXPOSE 8000
+ENV PORT=8000
+
+CMD ["node", "dist/index.js"]

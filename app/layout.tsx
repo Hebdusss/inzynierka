@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from './components/Sidebar'
 import AuthProvider from './auth/Provider'
+import { LangProvider } from './i18n/LangContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,10 +21,12 @@ export default function RootLayout({
     <html lang="en" data-theme="gymrats">
       <body className={inter.className}>
         <AuthProvider>
-          <Sidebar/>
-          <main className='flex-1 overflow-auto bg-gradient-to-br from-slate-50 via-white to-indigo-50/30'>
-            {children}
-          </main>
+          <LangProvider>
+            <Sidebar/>
+            <main className='flex-1 overflow-auto bg-gradient-to-br from-slate-50 via-white to-indigo-50/30'>
+              {children}
+            </main>
+          </LangProvider>
         </AuthProvider>
       </body>
     </html>

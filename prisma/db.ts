@@ -104,6 +104,16 @@ db.exec(`
     FOREIGN KEY (dietId) REFERENCES Diet(id) ON DELETE CASCADE
   );
 
+  CREATE TABLE IF NOT EXISTS Schedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    setId INTEGER NOT NULL,
+    date TEXT NOT NULL,
+    userId TEXT NOT NULL,
+    completed INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (setId) REFERENCES 'Set'(id) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES User(id) ON DELETE CASCADE
+  );
+
   -- Performance indexes
   CREATE INDEX IF NOT EXISTS idx_user_email ON User(email);
   CREATE INDEX IF NOT EXISTS idx_workout_userId ON Workout(userId);
@@ -112,7 +122,17 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_set_isPublic ON "Set"(isPublic);
   CREATE INDEX IF NOT EXISTS idx_setworkouts_workoutId ON _SetWorkouts(workoutId);
   CREATE INDEX IF NOT EXISTS idx_setdiets_dietId ON _SetDiets(dietId);
+  CREATE INDEX IF NOT EXISTS idx_schedule_userId ON Schedule(userId);
+  CREATE INDEX IF NOT EXISTS idx_schedule_date ON Schedule(date);
+  CREATE INDEX IF NOT EXISTS idx_schedule_userId_date ON Schedule(userId, date);
 `)
+
+// Migration: add completed column if it doesn't exist yet
+try {
+  db.exec(`ALTER TABLE Schedule ADD COLUMN completed INTEGER NOT NULL DEFAULT 0`)
+} catch (e) {
+  // Column already exists, ignore
+}
 
 export default db
 

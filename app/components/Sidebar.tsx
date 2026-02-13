@@ -5,9 +5,31 @@ import LinksContainer from './LinksContainer'
 import { signOut } from "next-auth/react"
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
+import { useLang } from '../i18n/LangContext'
+
+const LangSwitch = () => {
+  const { lang, setLang } = useLang()
+  return (
+    <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5 text-xs font-medium">
+      <button
+        onClick={() => setLang('pl')}
+        className={`px-2 py-1 rounded-md transition-all duration-200 ${lang === 'pl' ? 'bg-white text-brand-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+      >
+        PL
+      </button>
+      <button
+        onClick={() => setLang('en')}
+        className={`px-2 py-1 rounded-md transition-all duration-200 ${lang === 'en' ? 'bg-white text-brand-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+      >
+        EN
+      </button>
+    </div>
+  )
+}
 
 const Sidebar = () => {
   const { data: session, status } = useSession()
+  const { t } = useLang()
 
   
   if(status === 'unauthenticated') {
@@ -20,8 +42,11 @@ const Sidebar = () => {
           <span className='text-xl font-bold bg-gradient-to-r from-brand-600 to-brand-500 bg-clip-text text-transparent'>GymRats</span>
         </div>
         <div className='space-y-3'>
-          <Link href='/register' className='btn-primary w-full text-center block text-sm'>Create account</Link>
-          <Link href='/auth/signin' className='btn-ghost w-full text-center block border border-slate-200'>Sign in</Link>
+          <Link href='/register' className='btn-primary w-full text-center block text-sm'>{t('sidebar.createAccount')}</Link>
+          <Link href='/auth/signin' className='btn-ghost w-full text-center block border border-slate-200'>{t('sidebar.signIn')}</Link>
+        </div>
+        <div className='mt-auto pt-4 border-t border-slate-100 flex justify-end'>
+          <LangSwitch />
         </div>
     </div>
     )
@@ -59,16 +84,19 @@ const Sidebar = () => {
           <LinksContainer/>
         </div>
         <div className='p-4 border-t border-slate-100'>
-          {session ? 
-          <button 
-          className="w-full px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 flex items-center gap-2"
-          onClick={() => signOut()}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-            Logout
-          </button>
-          :
-          <Link href='/auth/signin' className='btn-ghost w-full text-center block'>Sign in</Link>
-          }
+          <div className='flex items-center justify-between'>
+            {session ? 
+            <button 
+            className="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 flex items-center gap-2"
+            onClick={() => signOut()}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+              {t('sidebar.logout')}
+            </button>
+            :
+            <Link href='/auth/signin' className='btn-ghost text-center block'>{t('sidebar.signIn')}</Link>
+            }
+            <LangSwitch />
+          </div>
         </div>
     </div>
   )

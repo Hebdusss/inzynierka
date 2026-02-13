@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react'
 import { postWorkout } from '../../Utils/utils'
+import { useLang } from '../../i18n/LangContext'
+import type { TranslationKey } from '../../i18n/translations'
 
 interface Props {
     email: string
@@ -19,8 +21,16 @@ const NewWorkoutForm = ({email}: Props) => {
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
+    const { t, lang } = useLang()
 
-    const bodyParts = ['Chest', 'Biceps', 'Triceps', 'Legs', 'Shoulders', 'Back']
+    const bodyPartKeys: { value: string; labelKey: TranslationKey }[] = [
+      { value: 'Chest', labelKey: 'bodyPart.Chest' },
+      { value: 'Biceps', labelKey: 'bodyPart.Biceps' },
+      { value: 'Triceps', labelKey: 'bodyPart.Triceps' },
+      { value: 'Legs', labelKey: 'bodyPart.Legs' },
+      { value: 'Shoulders', labelKey: 'bodyPart.Shoulders' },
+      { value: 'Back', labelKey: 'bodyPart.Back' },
+    ]
     const breaks: number[] = []
     for(let i = 0.5; i <= 5; i += 0.5) breaks.push(i)
     const series: number[] = []
@@ -41,12 +51,12 @@ const NewWorkoutForm = ({email}: Props) => {
         setError(null)
         setSuccess(null)
 
-        if(!name) { setError('Fill Workout name field'); return }
-        if(!bodyPart) { setError('Select Body part'); return }
-        if(!breaksTime) { setError('Select breaks time'); return }
-        if(!seriesNumber) { setError('Select series number'); return }
-        if(!weight || isNaN(parseFloat(weight))) { setError('Set correct value to weight field'); return }
-        if(!calories || isNaN(parseInt(calories))) { setError('Set correct value to calories field'); return }
+        if(!name) { setError(t('newWorkout.fillName')); return }
+        if(!bodyPart) { setError(t('newWorkout.selectBodyPart')); return }
+        if(!breaksTime) { setError(t('newWorkout.selectBreaks')); return }
+        if(!seriesNumber) { setError(t('newWorkout.selectSeries')); return }
+        if(!weight || isNaN(parseFloat(weight))) { setError(t('newWorkout.weightError')); return }
+        if(!calories || isNaN(parseInt(calories))) { setError(t('newWorkout.caloriesError')); return }
 
         setLoading(true)
         try {
@@ -65,11 +75,11 @@ const NewWorkoutForm = ({email}: Props) => {
             if(res.error) {
                 setError(res.error)
             } else {
-                setSuccess('Workout added successfully!')
+                setSuccess(t('newWorkout.success'))
                 clearForm()
             }
         } catch {
-            setError('Failed to add workout')
+            setError(t('newWorkout.failed'))
         } finally {
             setLoading(false)
         }
@@ -81,9 +91,9 @@ const NewWorkoutForm = ({email}: Props) => {
     <div className='card-glass p-6'>
         <form onSubmit={handleSubmit} className='space-y-5'>
             <div>
-                <label className="text-sm font-medium text-slate-600 mb-1.5 block">Workout name</label>
+                <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('newWorkout.name')}</label>
                 <input type="text" 
-                placeholder="e.g. Bench Press" 
+                placeholder={t('newWorkout.namePlaceholder')} 
                 value={name}
                 onChange={(e) => setName(e.target.value)} 
                 className="input-modern" />
@@ -91,18 +101,18 @@ const NewWorkoutForm = ({email}: Props) => {
 
             <div className='grid grid-cols-2 gap-4'>
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Body part</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newWorkout.bodyPart')}</label>
                     <select className="input-modern appearance-none cursor-pointer"
                     onChange={(e) => setBodyPart(e.target.value)}
                     value={bodyPart}>
-                        <option value='' disabled>Pick one</option>
-                        {bodyParts.map(o => (<option key={o} value={o}>{o}</option>))}
+                        <option value='' disabled>{t('newWorkout.pickOne')}</option>
+                        {bodyPartKeys.map(o => (<option key={o.value} value={o.value}>{t(o.labelKey)}</option>))}
                     </select>
                 </div>
 
                 <div>
                     <label className='text-sm font-medium text-slate-600 mb-1.5 block'>
-                        Reps: <span className='text-brand-600 font-bold'>{reps}</span>
+                        {t('newWorkout.reps')}: <span className='text-brand-600 font-bold'>{reps}</span>
                     </label>
                     <input type="range" 
                     min={0} 
@@ -116,21 +126,21 @@ const NewWorkoutForm = ({email}: Props) => {
 
             <div className='grid grid-cols-2 gap-4'>
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Break time (min)</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newWorkout.breakTime')}</label>
                     <select className="input-modern appearance-none cursor-pointer"
                     onChange={(e) => setBreakstime(e.target.value)}
                     value={breaksTime}>
-                        <option value='' disabled>Pick</option>
+                        <option value='' disabled>{t('newWorkout.pick')}</option>
                         {breaks.map(b => (<option key={b} value={b}>{b}</option>))}
                     </select>
                 </div>
 
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Series</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newWorkout.series')}</label>
                     <select className="input-modern appearance-none cursor-pointer"
                     onChange={(e) => setSeriesNumber(e.target.value)}
                     value={seriesNumber}>
-                        <option value='' disabled>Pick</option>
+                        <option value='' disabled>{t('newWorkout.pick')}</option>
                         {series.map(s => (<option key={s} value={s}>{s}</option>))}
                     </select>
                 </div>
@@ -138,7 +148,7 @@ const NewWorkoutForm = ({email}: Props) => {
 
             <div className='grid grid-cols-2 gap-4'>
                 <div>
-                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">Weight (kg)</label>
+                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('newWorkout.weight')}</label>
                     <input type="number" step="0.1"
                     placeholder="0.0" 
                     className="input-modern"
@@ -147,7 +157,7 @@ const NewWorkoutForm = ({email}: Props) => {
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">Calories burned</label>
+                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('newWorkout.caloriesBurned')}</label>
                     <input type="number" 
                     placeholder="0" 
                     className="input-modern"
@@ -170,7 +180,7 @@ const NewWorkoutForm = ({email}: Props) => {
             )}
             
             <button className="btn-primary w-full" type='submit' disabled={loading}>
-                {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Add workout'}
+                {loading ? <span className='loading loading-spinner loading-sm'></span> : t('newWorkout.submit')}
             </button>
         </form>
     </div>
