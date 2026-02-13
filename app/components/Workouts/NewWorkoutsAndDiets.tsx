@@ -8,10 +8,10 @@ interface Props {
 
 const NewWorkoutsAndDiets = ({email}: Props) => {
   return (
-    <div className='flex mt-5'>
+    <div className='flex flex-wrap gap-8'>
         <WorkoutAddNew email={email}/>
         <DietsAddNew email={email}/>
-  </div>
+    </div>
   )
 }
 

@@ -4,39 +4,63 @@
 
 body {
   display: flex;
-  background-color: #F5F7F8;
+  background-color: #f8fafc;
   height: 100vh;
   overflow: hidden;
 }
 
 @layer base {
   h1 {
-    @apply font-extrabold text-5xl mb-5 font-mono
+    @apply font-extrabold text-3xl tracking-tight
   } 
   h2 {
-    @apply font-bold text-6xl font-mono
+    @apply font-bold text-3xl tracking-tight text-slate-800
   }
   h3 {
-    @apply font-bold text-3xl
+    @apply font-semibold text-xl text-slate-700
   }
   h4 {
-    @apply font-bold text-xl
+    @apply font-semibold text-base text-slate-800
   }
 
-  /* width */
-::-webkit-scrollbar {
-  width: 10px;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #F5F7F8;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #A9A9A9;
-  border-radius: 10px;
-}
-
-
+@layer components {
+  .card-glass {
+    @apply bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200;
+  }
+  .input-modern {
+    @apply w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all duration-200;
+  }
+  .btn-primary {
+    @apply px-6 py-2.5 bg-gradient-to-r from-brand-500 to-brand-600 text-white font-medium rounded-xl shadow-sm shadow-brand-500/25 hover:shadow-md hover:shadow-brand-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-sm;
+  }
+  .btn-ghost {
+    @apply px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all duration-200;
+  }
+  .btn-danger {
+    @apply px-4 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-200;
+  }
+  .badge-stat {
+    @apply inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-lg;
+  }
+  .section-title {
+    @apply text-2xl font-bold text-slate-800 tracking-tight;
+  }
+  .page-container {
+    @apply flex flex-col h-full p-6 lg:p-10 overflow-auto;
+  }
 }

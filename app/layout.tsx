@@ -17,13 +17,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="gymrats">
       <body className={inter.className}>
         <AuthProvider>
           <Sidebar/>
-            <main className='flex-1 overflow-auto'>
-              {children}
-            </main>
+          <main className='flex-1 overflow-auto bg-gradient-to-br from-slate-50 via-white to-indigo-50/30'>
+            {children}
+          </main>
         </AuthProvider>
       </body>
     </html>

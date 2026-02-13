@@ -78,50 +78,46 @@ const NewWorkoutForm = ({email}: Props) => {
     
    
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
+    <div className='card-glass p-6'>
+        <form onSubmit={handleSubmit} className='space-y-5'>
             <div>
-                <label className="label">
-                    <span className="label-text">Workout name:</span>
-                </label>
+                <label className="text-sm font-medium text-slate-600 mb-1.5 block">Workout name</label>
                 <input type="text" 
-                placeholder="Workout name" 
+                placeholder="e.g. Bench Press" 
                 value={name}
                 onChange={(e) => setName(e.target.value)} 
-                className="input input-bordered w-80 max-w-m rounded-xl focus:outline-none" />
+                className="input-modern" />
             </div>
 
-            <div className='inline-block'>
-                <label className='label mt-5 '>
-                    <span className='label-text'>Select body part</span>
-                </label>
-                <select className="select select-bordered w-fit rounded-xl focus:outline-none"
-                onChange={(e) => setBodyPart(e.target.value)}
-                value={bodyPart}>
-                    <option value='' disabled>Pick one</option>
-                    {bodyParts.map(o => (<option key={o} value={o}>{o}</option>))}
-                </select>
-            </div>
+            <div className='grid grid-cols-2 gap-4'>
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Body part</label>
+                    <select className="input-modern appearance-none cursor-pointer"
+                    onChange={(e) => setBodyPart(e.target.value)}
+                    value={bodyPart}>
+                        <option value='' disabled>Pick one</option>
+                        {bodyParts.map(o => (<option key={o} value={o}>{o}</option>))}
+                    </select>
+                </div>
 
-            <div className='inline-block ml-10'>
-                <label className='label mt-5'>
-                    <span className='label-text'>Number of reps: {reps}</span>
-                </label>
-                <input type="range" 
-                min={0} 
-                max={30} 
-                value={reps} 
-                onChange={(e) => setReps(e.target.value)} 
-                className="slider-thumb bg-slate-200 accent-slate-400 appearance-none w-32 h-2 rounded-full focus:outline-none"
-               />             
-            </div>
-
-            <div>
-                <div className='inline-block'>
-                    <label className='label mt-5 '>
-                        <span className='label-text'>Select breaks time</span>
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>
+                        Reps: <span className='text-brand-600 font-bold'>{reps}</span>
                     </label>
-                    <select className="select select-bordered w-fit rounded-xl focus:outline-none"
+                    <input type="range" 
+                    min={0} 
+                    max={30} 
+                    value={reps} 
+                    onChange={(e) => setReps(e.target.value)} 
+                    className="w-full h-2 bg-slate-200 rounded-full accent-brand-500 appearance-none cursor-pointer mt-2"
+                   />             
+                </div>
+            </div>
+
+            <div className='grid grid-cols-2 gap-4'>
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Break time (min)</label>
+                    <select className="input-modern appearance-none cursor-pointer"
                     onChange={(e) => setBreakstime(e.target.value)}
                     value={breaksTime}>
                         <option value='' disabled>Pick</option>
@@ -129,50 +125,53 @@ const NewWorkoutForm = ({email}: Props) => {
                     </select>
                 </div>
 
-                <div className='inline-block ml-10'>
-                    <label className='label mt-5 '>
-                        <span className='label-text'>Select number of series</span>
-                    </label>
-                    <select className="select  select-bordered w-fit rounded-xl focus:outline-none"
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Series</label>
+                    <select className="input-modern appearance-none cursor-pointer"
                     onChange={(e) => setSeriesNumber(e.target.value)}
                     value={seriesNumber}>
                         <option value='' disabled>Pick</option>
-                        {series.map(s => (<option key={s} value={s} className='accent-slate-400'>{s}</option>))}
+                        {series.map(s => (<option key={s} value={s}>{s}</option>))}
                     </select>
                 </div>
             </div>
 
-            <div>
-                <div className='inline-block'>
-                    <label className="label mt-5">
-                        <span className="label-text">Set weight:</span>
-                    </label>
+            <div className='grid grid-cols-2 gap-4'>
+                <div>
+                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">Weight (kg)</label>
                     <input type="number" step="0.1"
-                    placeholder="Weight" 
-                    className="input input-bordered w-32 rounded-xl focus:outline-none"
+                    placeholder="0.0" 
+                    className="input-modern"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)} />
                 </div>
 
-                <div className='inline-block ml-10'>
-                <label className="label mt-5">
-                        <span className="label-text">Calories burned:</span>
-                    </label>
+                <div>
+                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">Calories burned</label>
                     <input type="number" 
-                    placeholder="Calories burned" 
-                    className="input input-bordered w-40 rounded-xl focus:outline-none"
+                    placeholder="0" 
+                    className="input-modern"
                     value={calories}
                     onChange={(e) => setCalories(e.target.value)} />
                 </div>
             </div>
-            {error && <div className='w-full text-center mt-3 text-red-600'>{error}</div>}
-            {success && <div className='w-full text-center mt-3 text-green-600'>{success}</div>}
-            <div className='flex justify-center'>
-                <button className="btn mt-5 rounded-xl w-fit" type='submit' disabled={loading}>
-                    {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Add workout'}
-                </button>
-            </div>
 
+            {error && (
+              <div className='flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-xl'>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span className='text-sm text-red-600'>{error}</span>
+              </div>
+            )}
+            {success && (
+              <div className='flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-100 rounded-xl'>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span className='text-sm text-green-600'>{success}</span>
+              </div>
+            )}
+            
+            <button className="btn-primary w-full" type='submit' disabled={loading}>
+                {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Add workout'}
+            </button>
         </form>
     </div>
   )

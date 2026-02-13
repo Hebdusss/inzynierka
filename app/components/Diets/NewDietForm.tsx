@@ -89,112 +89,109 @@ const NewDietForm = ({email}: Props) => {
         }
     }
 
+    const vitaminButtons = [
+      { label: 'A', state: vitA, setter: setVitA },
+      { label: 'B', state: vitB, setter: setVitB },
+      { label: 'C', state: vitC, setter: setVitC },
+      { label: 'D', state: vitD, setter: setVitD },
+      { label: 'K', state: vitK, setter: setVitK },
+    ]
+
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
+    <div className='card-glass p-6'>
+        <form onSubmit={handleSubmit} className='space-y-5'>
             <div>
-                <label className="label">
-                    <span className="label-text">Diet name:</span>
-                </label>
+                <label className="text-sm font-medium text-slate-600 mb-1.5 block">Diet name</label>
                 <input type="text" 
-                placeholder="Diet name" 
+                placeholder="e.g. Chicken Breast" 
                 value={name}
                 onChange={(e) => setName(e.target.value)} 
-                className="input input-bordered w-80 max-w-m rounded-xl focus:outline-none" />
+                className="input-modern" />
             </div>
 
-            <div className='inline-block mr-10'>
-                <label className='label mt-5 '>
-                    <span className='label-text'>Grams:</span>
-                </label>
-                <input type="number" step="0.1"
-                placeholder="Grams" 
-                value={grams}
-                onChange={(e) => setGrams(e.target.value)} 
-                className="input input-bordered w-32 rounded-xl focus:outline-none" />
-            </div>
-
-            <div className='inline-block'>
-                <label className='label mt-5 '>
-                    <span className='label-text'>Calories:</span>
-                </label>
-                <input type="number" 
-                placeholder="Calories" 
-                value={kcal}
-                onChange={(e) => setKcal(e.target.value)} 
-                className="input input-bordered w-32 rounded-xl focus:outline-none" />
+            <div className='grid grid-cols-2 gap-4'>
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Grams</label>
+                    <input type="number" step="0.1"
+                    placeholder="0.0" 
+                    value={grams}
+                    onChange={(e) => setGrams(e.target.value)} 
+                    className="input-modern" />
+                </div>
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Calories</label>
+                    <input type="number" 
+                    placeholder="0" 
+                    value={kcal}
+                    onChange={(e) => setKcal(e.target.value)} 
+                    className="input-modern" />
+                </div>
             </div>
                 
-            <div>
-              <div className='inline-block mr-10'>
-                  <label className='label mt-5 '>
-                      <span className='label-text'>Proteins:</span>
-                  </label>
-                  <input type="number" step="0.1"
-                  placeholder="Proteins" 
-                  value={proteins}
-                  onChange={(e) => setProteins(e.target.value)} 
-                  className="input input-bordered w-32 rounded-xl focus:outline-none" />
-              </div>
-
-              <div className='inline-block'>
-                  <label className='label mt-5 '>
-                      <span className='label-text'>Fats:</span>
-                  </label>
-                  <input type="number" step="0.1"
-                  placeholder="Fats" 
-                  value={fats}
-                  onChange={(e) => setFats(e.target.value)} 
-                  className="input input-bordered w-32 rounded-xl focus:outline-none" />
-              </div>
-            </div>
-
-            <div>
-              <div className='inline-block mr-10'>
-                  <label className='label mt-5 '>
-                      <span className='label-text'>Carbohydrates:</span>
-                  </label>
-                  <input type="number" step="0.1"
-                  placeholder="Carbohydrates" 
-                  value={carbohydrates}
-                  onChange={(e) => setCarbohydrates(e.target.value)} 
-                  className="input input-bordered w-40 rounded-xl focus:outline-none" />
-              </div>
-
-              <div className='inline-block'>
-                <span>Vitamins:</span>
+            <div className='grid grid-cols-2 gap-4'>
                 <div>
-                  <label className="label cursor-pointer inline-block">
-                    <span className="label-text mr-2">A</span> 
-                    <input type="checkbox" checked={vitA} onChange={() => toggleVitamin('A', vitA, setVitA)} />
-                  </label>
-                  <label className="label cursor-pointer inline-block">
-                    <span className="label-text mr-2">B</span> 
-                    <input type="checkbox" checked={vitB} onChange={() => toggleVitamin('B', vitB, setVitB)} />
-                  </label>
-                  <label className="label cursor-pointer inline-block">
-                    <span className="label-text mr-2">C</span> 
-                    <input type="checkbox" checked={vitC} onChange={() => toggleVitamin('C', vitC, setVitC)} />
-                  </label>
-                  <label className="label cursor-pointer inline-block">
-                    <span className="label-text mr-2">D</span> 
-                    <input type="checkbox" checked={vitD} onChange={() => toggleVitamin('D', vitD, setVitD)} />
-                  </label>
-                  <label className="label cursor-pointer inline-block">
-                    <span className="label-text mr-2">K</span> 
-                    <input type="checkbox" checked={vitK} onChange={() => toggleVitamin('K', vitK, setVitK)} />
-                  </label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Proteins (g)</label>
+                    <input type="number" step="0.1"
+                    placeholder="0.0" 
+                    value={proteins}
+                    onChange={(e) => setProteins(e.target.value)} 
+                    className="input-modern" />
                 </div>
-              </div>
-            </div>
-            {error && <div className='w-full text-center mt-3 text-red-600'>{error}</div>}
-            {success && <div className='w-full text-center mt-3 text-green-600'>{success}</div>}
-            <div className='flex justify-center'>
-                <button className="btn mt-5 rounded-xl w-fit" type='submit' disabled={loading}>
-                    {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Add diet'}
-                </button>
+                <div>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Fats (g)</label>
+                    <input type="number" step="0.1"
+                    placeholder="0.0" 
+                    value={fats}
+                    onChange={(e) => setFats(e.target.value)} 
+                    className="input-modern" />
+                </div>
             </div>
 
+            <div>
+                <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Carbohydrates (g)</label>
+                <input type="number" step="0.1"
+                placeholder="0.0" 
+                value={carbohydrates}
+                onChange={(e) => setCarbohydrates(e.target.value)} 
+                className="input-modern" />
+            </div>
+
+            <div>
+                <label className='text-sm font-medium text-slate-600 mb-2 block'>Vitamins</label>
+                <div className='flex gap-2'>
+                  {vitaminButtons.map(v => (
+                    <button
+                      key={v.label}
+                      type='button'
+                      onClick={() => toggleVitamin(v.label, v.state, v.setter)}
+                      className={`w-10 h-10 rounded-xl text-sm font-bold transition-all duration-200 ${
+                        v.state 
+                          ? 'bg-brand-500 text-white shadow-md scale-105' 
+                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                      }`}
+                    >
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
+            </div>
+
+            {error && (
+              <div className='flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-100 rounded-xl'>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span className='text-sm text-red-600'>{error}</span>
+              </div>
+            )}
+            {success && (
+              <div className='flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-100 rounded-xl'>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span className='text-sm text-green-600'>{success}</span>
+              </div>
+            )}
+
+            <button className="btn-primary w-full" type='submit' disabled={loading}>
+                {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Add diet'}
+            </button>
         </form>
     </div>
   )

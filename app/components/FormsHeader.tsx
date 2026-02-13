@@ -6,8 +6,9 @@ interface Props {
 
 const FormsHeader = ({title}: Props) => {
   return (
-    <div>
-        <h2>Add new {title}</h2>
+    <div className='mb-6'>
+        <h2 className='section-title'>Add new {title}</h2>
+        <p className='text-sm text-slate-400 mt-1'>Fill in the details below</p>
     </div>
   )
 }

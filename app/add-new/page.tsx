@@ -16,9 +16,9 @@ const AddNew = async () => {
   const { userId, workouts, diets } = getWorkoutsAndDiets(email)
 
   return (
-    <div className='flex flex-col mt-2 ml-10'>
-    <FormsSlider email={email} userId={userId || ''} workouts={workouts} diets={diets}/>
-</div>
+    <div className='page-container'>
+      <FormsSlider email={email} userId={userId || ''} workouts={workouts} diets={diets}/>
+    </div>
   )
 }
 

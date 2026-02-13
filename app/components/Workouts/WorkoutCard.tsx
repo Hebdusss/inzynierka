@@ -15,24 +15,37 @@ interface Props {
 
 const WorkoutCard = ({id,name, bodyPart, reps, breaks, series, weight, calories, deleteWorkout}: Props) => {
   return (
-    <div className='w-full border-b-2 p-3'>
-        <h4>{name}</h4>
-        <div className='flex justify-between'>
-            <div className='flex text-s  pr-10'>
-                <ul className="list-none">
-                    <li>Body part: <span className='font-semibold'>{bodyPart}</span></li>
-                    <li>Reps: <span className='font-semibold'>{reps}</span></li>
-                    <li>Break between series: <span className='font-semibold'>{breaks}</span></li>
-                </ul>
-                <ul className='list-none ml-5'>
-                    <li>Number of series: <span className='font-semibold'>{series}</span></li>
-                    <li>Weight: <span className='font-semibold'>{weight}</span></li>
-                    <li>Calories burned: <span className='font-semibold'>{calories}</span></li>
-                </ul>
+    <div className='card-glass p-4 mb-3 group'>
+        <div className='flex items-start justify-between mb-3'>
+            <div>
+              <h4 className='text-base font-semibold text-slate-800'>{name}</h4>
+              <span className='badge-stat bg-brand-50 text-brand-600 mt-1'>{bodyPart}</span>
             </div>
-            <div className='flex justify-center content-center h-full'>
-                <button className="btn rounded-3xl" 
-                onClick={() => deleteWorkout(id)}>Delete</button>
+            <button className="btn-danger opacity-0 group-hover:opacity-100 transition-opacity" 
+                onClick={() => deleteWorkout(id)}>
+                Delete
+            </button>
+        </div>
+        <div className='grid grid-cols-3 gap-3'>
+            <div className='bg-slate-50 rounded-lg px-3 py-2'>
+                <p className='text-xs text-slate-400'>Reps</p>
+                <p className='text-sm font-semibold text-slate-700'>{reps}</p>
+            </div>
+            <div className='bg-slate-50 rounded-lg px-3 py-2'>
+                <p className='text-xs text-slate-400'>Series</p>
+                <p className='text-sm font-semibold text-slate-700'>{series}</p>
+            </div>
+            <div className='bg-slate-50 rounded-lg px-3 py-2'>
+                <p className='text-xs text-slate-400'>Break</p>
+                <p className='text-sm font-semibold text-slate-700'>{breaks}min</p>
+            </div>
+            <div className='bg-slate-50 rounded-lg px-3 py-2'>
+                <p className='text-xs text-slate-400'>Weight</p>
+                <p className='text-sm font-semibold text-slate-700'>{weight}kg</p>
+            </div>
+            <div className='bg-orange-50 rounded-lg px-3 py-2 col-span-2'>
+                <p className='text-xs text-orange-400'>Calories</p>
+                <p className='text-sm font-semibold text-orange-600'>{calories} kcal</p>
             </div>
         </div>
     </div>

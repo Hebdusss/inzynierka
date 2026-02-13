@@ -15,16 +15,31 @@ interface Props {
 const FormsSlider = ({email, userId, workouts, diets}: Props) => {
     const [context, setContext] = useState<boolean>(true)
 
-    const active = "tab tab-active"
-    const def = "tab "
-
-
   return (
-    <div className='flex flex-col'>
-        <div role="tablist" className="tabs tabs-bordered mb-5 w-56">
-            <p role="tab" className={context ? active : def} onClick={() => setContext(true)}>Workouts and Diets</p>
-            <p role="tab" className={!context ? active : def} onClick={() => setContext(false)}>Sets</p>
+    <div className='space-y-6'>
+        <div className='flex gap-1 p-1 bg-slate-100 rounded-xl w-fit'>
+            <button
+              onClick={() => setContext(true)}
+              className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                context 
+                  ? 'bg-white text-slate-800 shadow-sm' 
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              Workouts & Diets
+            </button>
+            <button
+              onClick={() => setContext(false)}
+              className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                !context 
+                  ? 'bg-white text-slate-800 shadow-sm' 
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              Sets
+            </button>
         </div>
+
         {context ? 
         <>
             <FormsHeader title={'workouts and diets'}/>
@@ -35,7 +50,7 @@ const FormsSlider = ({email, userId, workouts, diets}: Props) => {
             <FormsHeader title={'sets'}/>
             <NewSetsForm email={email} userId={userId} w={workouts} d={diets}/>
         </>
-            }
+        }
     </div>
   )
 }   

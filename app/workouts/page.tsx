@@ -17,9 +17,9 @@ const WorkoutsPage = async () => {
   const { workouts, diets } = getWorkoutsAndDiets(email)
 
   return (
-      <div className='flex flex-col mt-10 ml-10 overflow-auto pb-10'>
-          <h2 className=''>Workouts & Diets</h2>
-        <div className='flex mt-10'>
+      <div className='page-container'>
+          <h2 className='text-2xl font-bold text-slate-800 mb-6'>Workouts & Diets</h2>
+        <div className='flex gap-8 flex-wrap lg:flex-nowrap'>
           <WorkoutsExplore email={email} initialWorkouts={workouts} />
           <DietsExplore email={email} initialDiets={diets} />
         </div>
