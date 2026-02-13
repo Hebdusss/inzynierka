@@ -41,3 +41,23 @@ export type Set = {
     diets: Diet[],
     workouts: Workout[]
 }
+
+export type ScheduleEntry = {
+    id: number;
+    setId: number;
+    date: string;
+    userId: string;
+    setName: string;
+    caloriesBurned: number;
+    caloriesConsumed: number;
+    totalWorkoutTime: number;
+    completed: boolean;
+}
+
+export type CalendarSet = {
+    id: number;
+    name: string;
+    caloriesBurned: number;
+    caloriesConsumed: number;
+    totalWorkoutTime: number;
+}

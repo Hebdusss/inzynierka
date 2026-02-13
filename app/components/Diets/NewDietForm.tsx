@@ -1,6 +1,7 @@
 'use client'
 import { postDiet } from '../../Utils/utils'
 import React, { useState } from 'react'
+import { useLang } from '../../i18n/LangContext'
 
 interface Props {
   email: string
@@ -17,22 +18,19 @@ const NewDietForm = ({email}: Props) => {
     const [proteins, setProteins] = useState('')
     const [fats, setFats] = useState('')
     const [carbohydrates, setCarbohydrates] = useState('')
-    const [vitA, setVitA] = useState(false)
-    const [vitB, setVitB] = useState(false)
-    const [vitC, setVitC] = useState(false)
-    const [vitD, setVitD] = useState(false)
-    const [vitK, setVitK] = useState(false)
     const [vitamins, setVitamins] = useState<string[]>([])
+    const { t } = useLang()
 
-    const toggleVitamin = (vit: string, current: boolean, setter: (v: boolean) => void) => {
-        if(!current) {
-            setter(true)
-            setVitamins(prev => [...prev, vit])
-        } else {
-            setter(false)
-            setVitamins(prev => prev.filter(v => v !== vit))
-        }
+    const toggleVitamin = (vit: string) => {
+        setVitamins(prev =>
+          prev.includes(vit) ? prev.filter(v => v !== vit) : [...prev, vit]
+        )
     }
+
+    const allVitamins = [
+      { group: t('newDiet.vitGroup'), items: ['A', 'B1', 'B2', 'B3', 'B6', 'B12', 'C', 'D', 'E', 'K'] },
+      { group: t('newDiet.minGroup'), items: ['Omega-3', 'Magnez', 'Potas', 'Żelazo', 'Wapń', 'Selen'] },
+    ]
 
     const clearForm = () => {
       setName('')
@@ -41,11 +39,6 @@ const NewDietForm = ({email}: Props) => {
       setProteins('')
       setFats('')
       setCarbohydrates('')
-      setVitA(false)
-      setVitB(false)
-      setVitC(false)
-      setVitD(false)
-      setVitK(false)
       setVitamins([])
     }
 
@@ -54,13 +47,13 @@ const NewDietForm = ({email}: Props) => {
       setError(null)
       setSuccess(null)
 
-        if(!name) { setError('Fill diet name field'); return }
-        if(!grams || isNaN(parseFloat(grams))) { setError('Set correct value to grams field'); return }
-        if(!kcal || isNaN(parseFloat(kcal))) { setError('Set correct value to calories field'); return }
-        if(!proteins || isNaN(parseFloat(proteins))) { setError('Set correct value to proteins field'); return }
-        if(!fats || isNaN(parseFloat(fats))) { setError('Set correct value to fats field'); return }
-        if(!carbohydrates || isNaN(parseFloat(carbohydrates))) { setError('Set correct value to carbohydrates field'); return }
-        if(vitamins.length === 0) { setError('Check at least one vitamin'); return }
+        if(!name) { setError(t('newDiet.fillName')); return }
+        if(!grams || isNaN(parseFloat(grams))) { setError(t('newDiet.gramsError')); return }
+        if(!kcal || isNaN(parseFloat(kcal))) { setError(t('newDiet.caloriesError')); return }
+        if(!proteins || isNaN(parseFloat(proteins))) { setError(t('newDiet.proteinsError')); return }
+        if(!fats || isNaN(parseFloat(fats))) { setError(t('newDiet.fatsError')); return }
+        if(!carbohydrates || isNaN(parseFloat(carbohydrates))) { setError(t('newDiet.carbsError')); return }
+        if(vitamins.length === 0) { setError(t('newDiet.vitaminError')); return }
 
         setLoading(true)
         try {
@@ -79,31 +72,23 @@ const NewDietForm = ({email}: Props) => {
             if(res.error) {
                 setError(res.error)
             } else {
-                setSuccess('Diet added successfully!')
+                setSuccess(t('newDiet.success'))
                 clearForm()
             }
         } catch {
-            setError('Failed to add diet')
+            setError(t('newDiet.failed'))
         } finally {
             setLoading(false)
         }
     }
 
-    const vitaminButtons = [
-      { label: 'A', state: vitA, setter: setVitA },
-      { label: 'B', state: vitB, setter: setVitB },
-      { label: 'C', state: vitC, setter: setVitC },
-      { label: 'D', state: vitD, setter: setVitD },
-      { label: 'K', state: vitK, setter: setVitK },
-    ]
-
   return (
     <div className='card-glass p-6'>
         <form onSubmit={handleSubmit} className='space-y-5'>
             <div>
-                <label className="text-sm font-medium text-slate-600 mb-1.5 block">Diet name</label>
+                <label className="text-sm font-medium text-slate-600 mb-1.5 block">{t('newDiet.name')}</label>
                 <input type="text" 
-                placeholder="e.g. Chicken Breast" 
+                placeholder={t('newDiet.namePlaceholder')} 
                 value={name}
                 onChange={(e) => setName(e.target.value)} 
                 className="input-modern" />
@@ -111,7 +96,7 @@ const NewDietForm = ({email}: Props) => {
 
             <div className='grid grid-cols-2 gap-4'>
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Grams</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newDiet.grams')}</label>
                     <input type="number" step="0.1"
                     placeholder="0.0" 
                     value={grams}
@@ -119,7 +104,7 @@ const NewDietForm = ({email}: Props) => {
                     className="input-modern" />
                 </div>
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Calories</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newDiet.calories')}</label>
                     <input type="number" 
                     placeholder="0" 
                     value={kcal}
@@ -130,7 +115,7 @@ const NewDietForm = ({email}: Props) => {
                 
             <div className='grid grid-cols-2 gap-4'>
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Proteins (g)</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newDiet.proteins')}</label>
                     <input type="number" step="0.1"
                     placeholder="0.0" 
                     value={proteins}
@@ -138,7 +123,7 @@ const NewDietForm = ({email}: Props) => {
                     className="input-modern" />
                 </div>
                 <div>
-                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Fats (g)</label>
+                    <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newDiet.fats')}</label>
                     <input type="number" step="0.1"
                     placeholder="0.0" 
                     value={fats}
@@ -148,7 +133,7 @@ const NewDietForm = ({email}: Props) => {
             </div>
 
             <div>
-                <label className='text-sm font-medium text-slate-600 mb-1.5 block'>Carbohydrates (g)</label>
+                <label className='text-sm font-medium text-slate-600 mb-1.5 block'>{t('newDiet.carbs')}</label>
                 <input type="number" step="0.1"
                 placeholder="0.0" 
                 value={carbohydrates}
@@ -157,23 +142,36 @@ const NewDietForm = ({email}: Props) => {
             </div>
 
             <div>
-                <label className='text-sm font-medium text-slate-600 mb-2 block'>Vitamins</label>
-                <div className='flex gap-2'>
-                  {vitaminButtons.map(v => (
-                    <button
-                      key={v.label}
-                      type='button'
-                      onClick={() => toggleVitamin(v.label, v.state, v.setter)}
-                      className={`w-10 h-10 rounded-xl text-sm font-bold transition-all duration-200 ${
-                        v.state 
-                          ? 'bg-brand-500 text-white shadow-md scale-105' 
-                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
-                      }`}
-                    >
-                      {v.label}
-                    </button>
+                <label className='text-sm font-medium text-slate-600 mb-2 block'>{t('newDiet.vitaminsLabel')}</label>
+                <div className='space-y-3'>
+                  {allVitamins.map(group => (
+                    <div key={group.group}>
+                      <p className='text-[10px] uppercase tracking-wider font-semibold text-slate-400 mb-1.5'>{group.group}</p>
+                      <div className='flex flex-wrap gap-1.5'>
+                        {group.items.map(vit => {
+                          const active = vitamins.includes(vit)
+                          return (
+                            <button
+                              key={vit}
+                              type='button'
+                              onClick={() => toggleVitamin(vit)}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                                active
+                                  ? 'bg-brand-500 text-white shadow-sm shadow-brand-500/25 scale-[1.03]'
+                                  : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                              }`}
+                            >
+                              {vit}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
                   ))}
                 </div>
+                {vitamins.length > 0 && (
+                  <p className='text-xs text-slate-400 mt-2'>{t('newDiet.selected')}: {vitamins.join(', ')}</p>
+                )}
             </div>
 
             {error && (
@@ -190,7 +188,7 @@ const NewDietForm = ({email}: Props) => {
             )}
 
             <button className="btn-primary w-full" type='submit' disabled={loading}>
-                {loading ? <span className='loading loading-spinner loading-sm'></span> : 'Add diet'}
+                {loading ? <span className='loading loading-spinner loading-sm'></span> : t('newDiet.submit')}
             </button>
         </form>
     </div>

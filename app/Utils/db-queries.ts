@@ -67,3 +67,37 @@ export function getSetsAndPublicSets(email: string) {
     publicSets: getPublicSets(),
   }
 }
+
+/** Get schedule entries for a given month */
+export function getScheduleByMonth(email: string, year: number, month: number) {
+  const userId = getUserIdByEmail(email)
+  if (!userId) return []
+
+  const monthStr = month.toString().padStart(2, '0')
+  const startDate = `${year}-${monthStr}-01`
+  const endDate = `${year}-${monthStr}-31`
+
+  const schedules = db.prepare(
+    `SELECT s.id, s.setId, s.date, s.userId, s.completed,
+            st.name as setName, st.caloriesBurned, st.caloriesConsumed, st.totalWorkoutTime
+     FROM Schedule s
+     JOIN "Set" st ON s.setId = st.id
+     WHERE s.userId = ? AND s.date >= ? AND s.date <= ?
+     ORDER BY s.date`
+  ).all(userId, startDate, endDate) as any[]
+
+  return schedules.map(s => ({ ...s, completed: !!s.completed }))
+}
+
+/** Get all sets for a user (used in calendar sidebar for drag source) */
+export function getUserSetsForCalendar(email: string) {
+  const userId = getUserIdByEmail(email)
+  if (!userId) return []
+  
+  return db.prepare('SELECT id, name, caloriesBurned, caloriesConsumed, totalWorkoutTime FROM "Set" WHERE userId = ?').all(userId) as any[]
+}
+
+/** Get public sets for calendar sidebar (all public sets, including user's own) */
+export function getPublicSetsForCalendar(email: string) {
+  return db.prepare('SELECT id, name, caloriesBurned, caloriesConsumed, totalWorkoutTime FROM "Set" WHERE isPublic = 1').all() as any[]
+}
