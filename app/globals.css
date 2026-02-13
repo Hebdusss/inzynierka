@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  display: flex;
+  background-color: #F5F7F8;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@layer base {
+  h1 {
+    @apply font-extrabold text-5xl mb-5 font-mono
+  } 
+  h2 {
+    @apply font-bold text-6xl font-mono
+  }
+  h3 {
+    @apply font-bold text-3xl
+  }
+  h4 {
+    @apply font-bold text-xl
+  }
+
+  /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #F5F7F8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #A9A9A9;
+  border-radius: 10px;
+}
+
+
+}
