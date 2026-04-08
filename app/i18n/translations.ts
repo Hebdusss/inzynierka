@@ -7,10 +7,7 @@ export const translations = {
   'nav.addNew': { en: 'Add new', pl: 'Dodaj nowe' },
   'nav.sets': { en: 'Sets', pl: 'Zestawy' },
   'nav.calendar': { en: 'Calendar', pl: 'Kalendarz' },
-<<<<<<< HEAD
   'nav.bmi': { en: 'BMI & Calories', pl: 'BMI i kalorie' },
-=======
->>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 
   // Sidebar
   'sidebar.createAccount': { en: 'Create account', pl: 'Utwórz konto' },
@@ -245,7 +242,6 @@ export const translations = {
   'calendar.nov': { en: 'November', pl: 'Listopad' },
   'calendar.dec': { en: 'December', pl: 'Grudzień' },
 
-<<<<<<< HEAD
   // BMI & Caloric calculator
   'bmi.badge': { en: 'Health Calculator', pl: 'Kalkulator zdrowia' },
   'bmi.title': { en: 'BMI & Caloric Needs', pl: 'BMI i zapotrzebowanie kaloryczne' },
@@ -405,8 +401,6 @@ export const translations = {
     pl: 'Dla przybrania masy: jedz +500 kcal (podświetlone powyżej). Połącz z progresywnym treningiem siłowym. Celuj w ~0.5 kg/tydzień.',
   },
 
-=======
->>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
   // Register page
   'register.title': { en: 'Create your account', pl: 'Utwórz konto' },
   'register.subtitle': { en: 'Start tracking your fitness journey', pl: 'Zacznij śledzić swoją drogę do formy' },
@@ -423,7 +417,6 @@ export const translations = {
   'register.passLength': { en: 'Password need to be at least 8 char lenght', pl: 'Hasło musi mieć co najmniej 8 znaków' },
   'register.passNoMatch': { en: 'Passwords dont match', pl: 'Hasła nie pasują' },
   'register.failed': { en: 'Something went wrong', pl: 'Coś poszło nie tak' },
-<<<<<<< HEAD
 
   // ═══ AI Trainer ═══
   'nav.aiTrainer': { en: 'AI Trainer', pl: 'Trener AI' },
@@ -446,8 +439,6 @@ export const translations = {
   'ai.workoutDays': { en: 'Training days', pl: 'Dni treningowe' },
   'ai.loginRequired': { en: 'Login Required', pl: 'Wymagane logowanie' },
   'ai.loginDesc': { en: 'Please log in to use the AI training coach.', pl: 'Zaloguj się, aby korzystać z trenera AI.' },
-=======
->>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 } as const
 
 export type TranslationKey = keyof typeof translations

@@ -125,7 +125,6 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_schedule_userId ON Schedule(userId);
   CREATE INDEX IF NOT EXISTS idx_schedule_date ON Schedule(date);
   CREATE INDEX IF NOT EXISTS idx_schedule_userId_date ON Schedule(userId, date);
-<<<<<<< HEAD
 `)
 
 // Migration: add completed column if it doesn't exist yet
@@ -158,8 +157,6 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_aichat_userId ON AiChatMessage(userId);
   CREATE INDEX IF NOT EXISTS idx_aiweekplan_userId ON AiWeekPlan(userId);
   CREATE INDEX IF NOT EXISTS idx_aiweekplan_week ON AiWeekPlan(userId, weekStart);
-=======
->>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 `)
 
 // Migration: add completed column if it doesn't exist yet

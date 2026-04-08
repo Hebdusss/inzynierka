@@ -1,9 +1,5 @@
 'use client'
-<<<<<<< HEAD
 import React, { useState, useCallback, useEffect } from 'react'
-=======
-import React, { useState, useCallback } from 'react'
->>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 import { CalendarSet, ScheduleEntry } from '../../types/types'
 import { postSchedule, deleteSchedule, updateScheduleDate, toggleScheduleCompleted } from '../../Utils/utils'
 import { useLang } from '../../i18n/LangContext'
@@ -47,15 +43,12 @@ export default function CalendarView({ userSets, publicSets, initialSchedule, em
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
-<<<<<<< HEAD
   // Always fetch fresh data on mount to catch changes from AI sync etc.
   useEffect(() => {
     fetchSchedule(currentYear, currentMonth + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-=======
->>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
   const daysInMonth = getDaysInMonth(currentYear, currentMonth)
   const firstDay = getFirstDayOfMonth(currentYear, currentMonth)
 
