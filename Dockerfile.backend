@@ -1,5 +1,9 @@
 # ---- Stage 1: Build ----
+<<<<<<< HEAD
 FROM node:20-alpine AS builder
+=======
+FROM node:18-alpine AS builder
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 WORKDIR /app
 
 COPY server-rest/package.json server-rest/package-lock.json* ./server-rest/
@@ -16,7 +20,11 @@ COPY server-rest/ ./
 RUN npx tsc --outDir dist
 
 # ---- Stage 2: Runner ----
+<<<<<<< HEAD
 FROM node:20-alpine AS runner
+=======
+FROM node:18-alpine AS runner
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 WORKDIR /app
 
 ENV NODE_ENV=production

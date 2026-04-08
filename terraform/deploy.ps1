@@ -72,11 +72,15 @@ Write-Host "========================================"
 Write-Host ""
 
 $Cluster = "${PROJECT_NAME}-cluster"
+<<<<<<< HEAD
 $Service = "${PROJECT_NAME}-app"
+=======
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 
 Write-Host "Waiting 30s for tasks to start..."
 Start-Sleep -Seconds 30
 
+<<<<<<< HEAD
 # Get public IP (both containers share the same task/ENI)
 try {
     $taskArn = (aws ecs list-tasks --cluster $Cluster --service-name $Service --query "taskArns[0]" --output text).Trim()
@@ -94,6 +98,37 @@ Write-Host "  Frontend: http://${publicIP}  (port 80)"
 Write-Host "  Backend:  http://${publicIP}:8000"
 Write-Host ""
 Write-Host "If IP shows 'pending', wait a minute and run:"
+=======
+# Frontend IP
+try {
+    $frontendTask = (aws ecs list-tasks --cluster $Cluster --service-name "${PROJECT_NAME}-frontend" --query "taskArns[0]" --output text).Trim()
+    if ($frontendTask -and $frontendTask -ne "None") {
+        $frontendENI = (aws ecs describe-tasks --cluster $Cluster --tasks $frontendTask --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" --output text).Trim()
+        if ($frontendENI) {
+            $frontendIP = (aws ec2 describe-network-interfaces --network-interface-ids $frontendENI --query "NetworkInterfaces[0].Association.PublicIp" --output text).Trim()
+        }
+    }
+} catch { $frontendIP = "pending" }
+
+# Backend IP
+try {
+    $backendTask = (aws ecs list-tasks --cluster $Cluster --service-name "${PROJECT_NAME}-backend" --query "taskArns[0]" --output text).Trim()
+    if ($backendTask -and $backendTask -ne "None") {
+        $backendENI = (aws ecs describe-tasks --cluster $Cluster --tasks $backendTask --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" --output text).Trim()
+        if ($backendENI) {
+            $backendIP = (aws ec2 describe-network-interfaces --network-interface-ids $backendENI --query "NetworkInterfaces[0].Association.PublicIp" --output text).Trim()
+        }
+    }
+} catch { $backendIP = "pending" }
+
+if (-not $frontendIP) { $frontendIP = "pending" }
+if (-not $backendIP) { $backendIP = "pending" }
+
+Write-Host "  Frontend: http://${frontendIP}:3000"
+Write-Host "  Backend:  http://${backendIP}:8000"
+Write-Host ""
+Write-Host "If IPs show 'pending', wait a minute and run:"
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 Write-Host "  cd terraform; terraform output info"
 
 Pop-Location

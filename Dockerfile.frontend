@@ -1,38 +1,61 @@
 # ---- Stage 1: Dependencies ----
+<<<<<<< HEAD
 FROM node:20-alpine AS deps
 RUN apk add --no-cache python3 make g++
+=======
+FROM node:18-alpine AS deps
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
 # ---- Stage 2: Build ----
+<<<<<<< HEAD
 FROM node:20-alpine AS builder
+=======
+FROM node:18-alpine AS builder
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+<<<<<<< HEAD
 # Generate Prisma client
 ENV DATABASE_URL="file:./prisma/dev.db"
 RUN npx prisma@5 generate
 
+=======
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 # Build the Next.js app
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # ---- Stage 3: Runner ----
+<<<<<<< HEAD
 FROM node:20-alpine AS runner
 RUN apk add --no-cache python3 make g++
+=======
+FROM node:18-alpine AS runner
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+<<<<<<< HEAD
 ENV DATABASE_URL="file:./prisma/dev.db"
+=======
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 
 # Copy built assets
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
+<<<<<<< HEAD
 # Copy database & prisma schema
 COPY --from=builder /app/prisma ./prisma
 
@@ -46,6 +69,18 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 EXPOSE 80
 ENV PORT=80
+=======
+# Copy database
+COPY --from=builder /app/prisma ./prisma
+
+# Set ownership
+RUN chown -R nextjs:nodejs /app
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]

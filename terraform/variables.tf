@@ -22,16 +22,40 @@ variable "backend_image_tag" {
   default     = "latest"
 }
 
+<<<<<<< HEAD
 variable "task_cpu" {
   description = "CPU units for the combined task (1 vCPU = 1024)"
+=======
+variable "frontend_cpu" {
+  description = "CPU units for frontend task (1 vCPU = 1024)"
+  type        = number
+  default     = 256
+}
+
+variable "frontend_memory" {
+  description = "Memory (MiB) for frontend task"
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
   type        = number
   default     = 512
 }
 
+<<<<<<< HEAD
 variable "task_memory" {
   description = "Memory (MiB) for the combined task"
   type        = number
   default     = 1024
+=======
+variable "backend_cpu" {
+  description = "CPU units for backend task"
+  type        = number
+  default     = 256
+}
+
+variable "backend_memory" {
+  description = "Memory (MiB) for backend task"
+  type        = number
+  default     = 512
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 }
 
 variable "nextauth_secret" {

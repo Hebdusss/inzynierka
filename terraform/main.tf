@@ -99,6 +99,7 @@ resource "aws_route_table_association" "public" {
 }
 
 # ============================================================================
+<<<<<<< HEAD
 # Security Group (single task – both containers share the same ENI)
 # ============================================================================
 
@@ -110,12 +111,44 @@ resource "aws_security_group" "app" {
     description = "Frontend (Next.js)"
     from_port   = 80
     to_port     = 80
+=======
+# Security Groups
+# ============================================================================
+
+resource "aws_security_group" "frontend" {
+  name   = "${var.project_name}-frontend-sg"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    description = "HTTP"
+    from_port   = 3000
+    to_port     = 3000
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+<<<<<<< HEAD
   ingress {
     description = "Backend (Express API)"
+=======
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "${var.project_name}-frontend-sg" }
+}
+
+resource "aws_security_group" "backend" {
+  name   = "${var.project_name}-backend-sg"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    description = "Express API"
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
     from_port   = 8000
     to_port     = 8000
     protocol    = "tcp"
@@ -129,7 +162,11 @@ resource "aws_security_group" "app" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+<<<<<<< HEAD
   tags = { Name = "${var.project_name}-app-sg" }
+=======
+  tags = { Name = "${var.project_name}-backend-sg" }
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
 }
 
 # ============================================================================
@@ -195,6 +232,7 @@ resource "aws_ecs_cluster" "main" {
 }
 
 # ============================================================================
+<<<<<<< HEAD
 # ECS Task Definition - Single task with Frontend + Backend containers
 # ============================================================================
 
@@ -272,12 +310,127 @@ resource "aws_ecs_service" "app" {
   name            = "${var.project_name}-app"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.app.arn
+=======
+# ECS Task Definition - Backend
+# ============================================================================
+
+resource "aws_ecs_task_definition" "backend" {
+  family                   = "${var.project_name}-backend"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = var.backend_cpu
+  memory                   = var.backend_memory
+  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+  task_role_arn            = aws_iam_role.ecs_task.arn
+
+  container_definitions = jsonencode([{
+    name      = "backend"
+    image     = "${aws_ecr_repository.backend.repository_url}:${var.backend_image_tag}"
+    essential = true
+
+    portMappings = [{
+      containerPort = 8000
+      hostPort      = 8000
+      protocol      = "tcp"
+    }]
+
+    environment = [
+      { name = "PORT",       value = "8000" },
+      { name = "NODE_ENV",   value = "production" }
+    ]
+
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.backend.name
+        "awslogs-region"        = var.aws_region
+        "awslogs-stream-prefix" = "backend"
+      }
+    }
+  }])
+}
+
+# ============================================================================
+# ECS Service - Backend
+# ============================================================================
+
+resource "aws_ecs_service" "backend" {
+  name            = "${var.project_name}-backend"
+  cluster         = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.backend.arn
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
   desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
     subnets          = aws_subnet.public[*].id
+<<<<<<< HEAD
     security_groups  = [aws_security_group.app.id]
+=======
+    security_groups  = [aws_security_group.backend.id]
+    assign_public_ip = true
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.ecs_exec_policy]
+}
+
+# ============================================================================
+# ECS Task Definition - Frontend
+# ============================================================================
+
+resource "aws_ecs_task_definition" "frontend" {
+  family                   = "${var.project_name}-frontend"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = var.frontend_cpu
+  memory                   = var.frontend_memory
+  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+  task_role_arn            = aws_iam_role.ecs_task.arn
+
+  container_definitions = jsonencode([{
+    name      = "frontend"
+    image     = "${aws_ecr_repository.frontend.repository_url}:${var.frontend_image_tag}"
+    essential = true
+
+    portMappings = [{
+      containerPort = 3000
+      hostPort      = 3000
+      protocol      = "tcp"
+    }]
+
+    environment = [
+      { name = "PORT",            value = "3000" },
+      { name = "NODE_ENV",        value = "production" },
+      { name = "NEXTAUTH_SECRET", value = var.nextauth_secret },
+      { name = "NEXTAUTH_URL",    value = "http://0.0.0.0:3000" }
+    ]
+
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.frontend.name
+        "awslogs-region"        = var.aws_region
+        "awslogs-stream-prefix" = "frontend"
+      }
+    }
+  }])
+}
+
+# ============================================================================
+# ECS Service - Frontend
+# ============================================================================
+
+resource "aws_ecs_service" "frontend" {
+  name            = "${var.project_name}-frontend"
+  cluster         = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.frontend.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = aws_subnet.public[*].id
+    security_groups  = [aws_security_group.frontend.id]
+>>>>>>> c80a8855a3f6e2e096ac7af8546ff9f4b360ed57
     assign_public_ip = true
   }
 
