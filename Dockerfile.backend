@@ -1,5 +1,5 @@
 # ---- Stage 1: Build ----
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY server-rest/package.json server-rest/package-lock.json* ./server-rest/
@@ -16,7 +16,7 @@ COPY server-rest/ ./
 RUN npx tsc --outDir dist
 
 # ---- Stage 2: Runner ----
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production

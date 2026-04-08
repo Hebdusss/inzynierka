@@ -8,10 +8,9 @@ project_name = "gymrats"
 frontend_image_tag = "latest"
 backend_image_tag  = "latest"
 
-frontend_cpu    = 256
-frontend_memory = 512
-backend_cpu     = 256
-backend_memory  = 512
+# Single Fargate task runs both containers
+task_cpu    = 512
+task_memory = 1024
 
 # CHANGE THIS to a secure random string
 nextauth_secret = "CHANGE-ME-super-secret-key-123"

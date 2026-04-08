@@ -39,6 +39,7 @@
     "app/Utils/utils.ts"
 , "__tests__/simple.test.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "server-rest"
   ]
 }

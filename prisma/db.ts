@@ -134,6 +134,31 @@ try {
   // Column already exists, ignore
 }
 
+// AI Trainer tables
+db.exec(`
+  CREATE TABLE IF NOT EXISTS AiChatMessage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId TEXT NOT NULL,
+    role TEXT NOT NULL,
+    content TEXT NOT NULL,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (userId) REFERENCES User(id) ON DELETE CASCADE
+  );
+
+  CREATE TABLE IF NOT EXISTS AiWeekPlan (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId TEXT NOT NULL,
+    weekStart TEXT NOT NULL,
+    planJson TEXT NOT NULL,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (userId) REFERENCES User(id) ON DELETE CASCADE
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_aichat_userId ON AiChatMessage(userId);
+  CREATE INDEX IF NOT EXISTS idx_aiweekplan_userId ON AiWeekPlan(userId);
+  CREATE INDEX IF NOT EXISTS idx_aiweekplan_week ON AiWeekPlan(userId, weekStart);
+`)
+
 export default db
 
 // Helper: generate cuid-like ID

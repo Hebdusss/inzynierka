@@ -7,6 +7,7 @@ export const translations = {
   'nav.addNew': { en: 'Add new', pl: 'Dodaj nowe' },
   'nav.sets': { en: 'Sets', pl: 'Zestawy' },
   'nav.calendar': { en: 'Calendar', pl: 'Kalendarz' },
+  'nav.bmi': { en: 'BMI & Calories', pl: 'BMI i kalorie' },
 
   // Sidebar
   'sidebar.createAccount': { en: 'Create account', pl: 'Utwórz konto' },
@@ -241,6 +242,165 @@ export const translations = {
   'calendar.nov': { en: 'November', pl: 'Listopad' },
   'calendar.dec': { en: 'December', pl: 'Grudzień' },
 
+  // BMI & Caloric calculator
+  'bmi.badge': { en: 'Health Calculator', pl: 'Kalkulator zdrowia' },
+  'bmi.title': { en: 'BMI & Caloric Needs', pl: 'BMI i zapotrzebowanie kaloryczne' },
+  'bmi.subtitle': {
+    en: 'Calculate your BMI and daily caloric needs using 4 scientifically validated models. Your recommended intake is the average of all models.',
+    pl: 'Oblicz swoje BMI i dzienne zapotrzebowanie kaloryczne za pomocą 4 naukowo zwalidowanych modeli. Twoje zalecane spożycie to średnia ze wszystkich modeli.',
+  },
+  'bmi.yourData': { en: 'Your data', pl: 'Twoje dane' },
+  'bmi.gender': { en: 'Gender', pl: 'Płeć' },
+  'bmi.male': { en: 'Male', pl: 'Mężczyzna' },
+  'bmi.female': { en: 'Female', pl: 'Kobieta' },
+  'bmi.weight': { en: 'Weight (kg)', pl: 'Waga (kg)' },
+  'bmi.height': { en: 'Height (cm)', pl: 'Wzrost (cm)' },
+  'bmi.age': { en: 'Age', pl: 'Wiek' },
+  'bmi.activityLevel': { en: 'Activity level', pl: 'Poziom aktywności' },
+  'bmi.sedentary': { en: 'Sedentary (office work)', pl: 'Siedzący (praca biurowa)' },
+  'bmi.light': { en: 'Light (1-3 trainings/week)', pl: 'Lekki (1-3 treningi/tyg.)' },
+  'bmi.moderate': { en: 'Moderate (3-5 trainings/week)', pl: 'Umiarkowany (3-5 treningów/tyg.)' },
+  'bmi.active': { en: 'Active (6-7 trainings/week)', pl: 'Aktywny (6-7 treningów/tyg.)' },
+  'bmi.veryActive': { en: 'Very active (2× daily / physical job)', pl: 'Bardzo aktywny (2× dziennie / fizyczna praca)' },
+  'bmi.calculate': { en: 'Calculate', pl: 'Oblicz' },
+  'bmi.bmiResult': { en: 'Your BMI', pl: 'Twoje BMI' },
+  'bmi.bmiInfo': { en: 'Body Mass Index based on your height and weight.', pl: 'Wskaźnik masy ciała na podstawie wzrostu i wagi.' },
+  'bmi.underweight': { en: 'Underweight', pl: 'Niedowaga' },
+  'bmi.normalWeight': { en: 'Normal', pl: 'Norma' },
+  'bmi.overweightLabel': { en: 'Overweight', pl: 'Nadwaga' },
+  'bmi.obese': { en: 'Obese', pl: 'Otyłość' },
+  'bmi.cat.severeThin': { en: 'Severe thinness', pl: 'Wygłodzenie' },
+  'bmi.cat.moderateThin': { en: 'Moderate thinness', pl: 'Niedowaga umiarkowana' },
+  'bmi.cat.mildThin': { en: 'Mild thinness', pl: 'Niedowaga łagodna' },
+  'bmi.cat.normal': { en: 'Normal weight', pl: 'Waga prawidłowa' },
+  'bmi.cat.overweight': { en: 'Overweight', pl: 'Nadwaga' },
+  'bmi.cat.obese1': { en: 'Obese class I', pl: 'Otyłość I stopnia' },
+  'bmi.cat.obese2': { en: 'Obese class II', pl: 'Otyłość II stopnia' },
+  'bmi.cat.obese3': { en: 'Obese class III', pl: 'Otyłość III stopnia' },
+  'bmi.modelsTitle': { en: 'Caloric needs — model comparison', pl: 'Zapotrzebowanie kaloryczne — porównanie modeli' },
+  'bmi.modelsSubtitle': {
+    en: 'Each model calculates your Basal Metabolic Rate (BMR) differently, then multiplies by your activity level to get Total Daily Energy Expenditure (TDEE).',
+    pl: 'Każdy model oblicza Twój podstawowy metabolizm (BMR) inaczej, a następnie mnoży go przez poziom aktywności, aby uzyskać całkowite dzienne zapotrzebowanie energetyczne (TDEE).',
+  },
+  'bmi.day': { en: 'day', pl: 'dzień' },
+  'bmi.mifflinDesc': {
+    en: 'Most widely recommended since 1990. Uses weight, height, age & gender. Considered the most accurate for healthy individuals.',
+    pl: 'Najczęściej polecany od 1990 r. Uwzględnia wagę, wzrost, wiek i płeć. Uważany za najdokładniejszy dla zdrowych osób.',
+  },
+  'bmi.harrisDesc': {
+    en: 'Classic formula from 1919, revised in 1984. Slightly higher estimates than Mifflin-St Jeor, especially for overweight individuals.',
+    pl: 'Klasyczny wzór z 1919 r., zrewidowany w 1984. Daje nieco wyższe wyniki niż Mifflin-St Jeor, zwłaszcza dla osób z nadwagą.',
+  },
+  'bmi.whoDesc': {
+    en: 'World Health Organization formula based on weight and age cohorts. Simpler, does not use height directly.',
+    pl: 'Wzór WHO oparty na wadze i grupach wiekowych. Prostszy, nie uwzględnia bezpośrednio wzrostu.',
+  },
+  'bmi.katchDesc': {
+    en: 'Based on lean body mass (LBM). Most accurate for athletic individuals. Uses estimated body fat percentage.',
+    pl: 'Oparty na beztłuszczowej masie ciała (LBM). Najdokładniejszy dla osób sportowych. Używa szacunkowego % tkanki tłuszczowej.',
+  },
+  'bmi.recommendation': { en: 'Your recommended daily intake', pl: 'Twoje zalecane dzienne spożycie' },
+  'bmi.avgOfModels': { en: 'Average of all 4 models', pl: 'Średnia z 4 modeli' },
+  'bmi.maintenance': { en: 'Maintenance', pl: 'Utrzymanie wagi' },
+  'bmi.weightLoss': { en: 'Weight loss (−500 kcal)', pl: 'Redukcja (−500 kcal)' },
+  'bmi.weightGain': { en: 'Weight gain (+500 kcal)', pl: 'Masa (+500 kcal)' },
+  'bmi.rangeInfo': {
+    en: 'The models give a range of results. Your TDEE falls between:',
+    pl: 'Modele dają zakres wyników. Twoje TDEE mieści się między:',
+  },
+  'bmi.formulasTitle': { en: 'Formulas used', pl: 'Użyte wzory' },
+  'bmi.whoFormulaNote': {
+    en: 'Equations depend on age group (18-30, 30-60, 60+) and gender — based on weight only',
+    pl: 'Równania zależą od grupy wiekowej (18-30, 30-60, 60+) i płci — oparte tylko na wadze',
+  },
+  'bmi.activityMultiplier': { en: 'activity multiplier', pl: 'mnożnik aktywności' },
+
+  // BMI — Profile setup
+  'bmi.profileSetup': { en: 'Set up your profile', pl: 'Skonfiguruj swój profil' },
+  'bmi.profileSetupDesc': {
+    en: 'Enter your data once — height and date of birth won\'t change. You\'ll only log your weight daily.',
+    pl: 'Wpisz swoje dane raz — wzrost i data urodzenia się nie zmienią. Codziennie będziesz wpisywać tylko wagę.',
+  },
+  'bmi.birthDate': { en: 'Date of birth', pl: 'Data urodzenia' },
+  'bmi.goal': { en: 'Goal', pl: 'Cel' },
+  'bmi.goal.lose': { en: 'Lose weight', pl: 'Schudnąć' },
+  'bmi.goal.maintain': { en: 'Maintain', pl: 'Utrzymać wagę' },
+  'bmi.goal.gain': { en: 'Gain mass', pl: 'Przybrać masę' },
+  'bmi.goalWeight': { en: 'Goal weight (kg)', pl: 'Docelowa waga (kg)' },
+  'bmi.saveProfile': { en: 'Save & continue', pl: 'Zapisz i kontynuuj' },
+  'bmi.editProfile': { en: 'Edit profile', pl: 'Edytuj profil' },
+  'bmi.cancelEdit': { en: 'Cancel', pl: 'Anuluj' },
+
+  // BMI — Tracker dashboard
+  'bmi.currentWeight': { en: 'Current weight', pl: 'Aktualna waga' },
+  'bmi.weeklyTrend': { en: 'Weekly trend', pl: 'Trend tygodniowy' },
+  'bmi.totalTrend': { en: 'Total change', pl: 'Zmiana łączna' },
+  'bmi.avgWeeklyTrend': { en: 'Avg. weekly change', pl: 'Śr. tygodniowa zmiana' },
+  'bmi.tab.tracker': { en: 'Weight Tracker', pl: 'Śledzenie wagi' },
+  'bmi.tab.calculator': { en: 'Calorie Calculator', pl: 'Kalkulator kalorii' },
+  'bmi.tab.formulas': { en: 'Formulas', pl: 'Wzory' },
+  'bmi.logWeight': { en: 'Log today\'s weight', pl: 'Wpisz dzisiejszą wagę' },
+  'bmi.addWeight': { en: 'Add', pl: 'Dodaj' },
+  'bmi.updateWeight': { en: 'Update', pl: 'Aktualizuj' },
+  'bmi.noWeightYet': { en: 'Log your first weight entry in the Tracker tab to see calorie calculations.', pl: 'Wpisz swoją pierwszą wagę w zakładce Śledzenie, aby zobaczyć obliczenia kalorii.' },
+
+  // BMI — Goal progress
+  'bmi.goalProgress': { en: 'Goal progress', pl: 'Postęp w realizacji celu' },
+  'bmi.start': { en: 'Start', pl: 'Start' },
+  'bmi.toGoal': { en: 'to goal', pl: 'do celu' },
+  'bmi.pastGoal': { en: 'past goal', pl: 'ponad cel' },
+  'bmi.goalReached': { en: 'Goal reached!', pl: 'Cel osiągnięty!' },
+  'bmi.totalChange': { en: 'Total change', pl: 'Zmiana łączna' },
+
+  // BMI — Stagnation detection
+  'bmi.stagnationTitle': { en: 'Weight stagnation detected', pl: 'Wykryto stagnację wagi' },
+  'bmi.stagnationMsg': {
+    en: 'Your weight has barely changed over the last {days} days (avg {avg} kg). Consider adjusting your plan.',
+    pl: 'Twoja waga prawie się nie zmieniła przez ostatnie {days} dni (śr. {avg} kg). Rozważ zmianę planu.',
+  },
+  'bmi.stagnationTip1': { en: 'Try reducing daily intake by another 100-200 kcal', pl: 'Spróbuj zmniejszyć dzienne spożycie o kolejne 100-200 kcal' },
+  'bmi.stagnationTip2': { en: 'Add extra cardio session (20-30 min)', pl: 'Dodaj dodatkową sesję cardio (20-30 min)' },
+  'bmi.stagnationTip3': { en: 'Consider a refeed day to reset metabolism', pl: 'Rozważ dzień refeed, żeby zresetować metabolizm' },
+  'bmi.stagnationGainTip1': { en: 'Increase daily intake by 200-300 kcal', pl: 'Zwiększ dzienne spożycie o 200-300 kcal' },
+  'bmi.stagnationGainTip2': { en: 'Focus on progressive overload in training', pl: 'Skup się na progresywnym przeciążeniu w treningu' },
+  'bmi.stagnationMaintainTip': { en: 'Great job! Your weight is stable, which is your goal.', pl: 'Świetna robota! Twoja waga jest stabilna, a to jest Twój cel.' },
+
+  // BMI — Chart
+  'bmi.chart.title': { en: 'Weight progress chart', pl: 'Wykres postępów wagi' },
+  'bmi.chart.needMore': { en: 'Add at least 2 weight entries to see the chart', pl: 'Dodaj co najmniej 2 wpisy wagi, aby zobaczyć wykres' },
+  'bmi.chart.weight': { en: 'Weight', pl: 'Waga' },
+  'bmi.chart.avg7': { en: '7-day avg', pl: 'Śr. 7-dniowa' },
+  'bmi.chart.trend': { en: 'Trend', pl: 'Trend' },
+  'bmi.chart.goal': { en: 'Goal', pl: 'Cel' },
+  'bmi.chart.goalLine': { en: 'Goal', pl: 'Cel' },
+
+  // BMI — History table
+  'bmi.history': { en: 'Weight history', pl: 'Historia wagi' },
+  'bmi.histDate': { en: 'Date', pl: 'Data' },
+  'bmi.histWeight': { en: 'Weight', pl: 'Waga' },
+  'bmi.histChange': { en: 'Change', pl: 'Zmiana' },
+
+  // BMI — Calculator tab
+  'bmi.calcTitle': { en: 'Caloric needs calculator', pl: 'Kalkulator zapotrzebowania kalorycznego' },
+  'bmi.calcDesc': {
+    en: 'Calculations based on your profile: weight {weight} kg, height {height} cm, age {age}. Adjust activity level below if needed.',
+    pl: 'Obliczenia na podstawie Twojego profilu: waga {weight} kg, wzrost {height} cm, wiek {age}. W razie potrzeby zmień poziom aktywności poniżej.',
+  },
+
+  // BMI — Goal-specific advice
+  'bmi.goalAdvice.lose': {
+    en: 'For your weight loss goal: eat at -500 kcal (highlighted above). Aim for 0.5-1 kg loss per week. Don\'t go below BMR!',
+    pl: 'Dla celu redukcji: jedz -500 kcal (podświetlone powyżej). Celuj w 0.5-1 kg utraty tygodniowo. Nie schodź poniżej BMR!',
+  },
+  'bmi.goalAdvice.maintain': {
+    en: 'For weight maintenance: eat at your TDEE (highlighted above). Monitor weekly and adjust ±100 kcal if weight drifts.',
+    pl: 'Dla utrzymania wagi: jedz na poziomie TDEE (podświetlone powyżej). Monitoruj co tydzień i koryguj ±100 kcal, jeśli waga się zmienia.',
+  },
+  'bmi.goalAdvice.gain': {
+    en: 'For mass gain: eat at +500 kcal (highlighted above). Combine with progressive resistance training. Aim for ~0.5 kg/week.',
+    pl: 'Dla przybrania masy: jedz +500 kcal (podświetlone powyżej). Połącz z progresywnym treningiem siłowym. Celuj w ~0.5 kg/tydzień.',
+  },
+
   // Register page
   'register.title': { en: 'Create your account', pl: 'Utwórz konto' },
   'register.subtitle': { en: 'Start tracking your fitness journey', pl: 'Zacznij śledzić swoją drogę do formy' },
@@ -257,6 +417,28 @@ export const translations = {
   'register.passLength': { en: 'Password need to be at least 8 char lenght', pl: 'Hasło musi mieć co najmniej 8 znaków' },
   'register.passNoMatch': { en: 'Passwords dont match', pl: 'Hasła nie pasują' },
   'register.failed': { en: 'Something went wrong', pl: 'Coś poszło nie tak' },
+
+  // ═══ AI Trainer ═══
+  'nav.aiTrainer': { en: 'AI Trainer', pl: 'Trener AI' },
+  'ai.title': { en: 'AI Training Coach', pl: 'Trener AI' },
+  'ai.subtitle': { en: 'Your personal workout planner powered by AI', pl: 'Twój osobisty planer treningów oparty na AI' },
+  'ai.welcome': { en: 'Welcome to AI Trainer!', pl: 'Witaj w Trenerze AI!' },
+  'ai.welcomeDesc': { en: 'Tell me about your goals and I\'ll create a personalized weekly training plan. You can ask me to adjust exercises, change days, or modify intensity anytime.', pl: 'Opowiedz mi o swoich celach, a stworzę spersonalizowany tygodniowy plan treningowy. Możesz poprosić o zmianę ćwiczeń, dni lub intensywności w każdej chwili.' },
+  'ai.placeholder': { en: 'Type your message...', pl: 'Napisz wiadomość...' },
+  'ai.send': { en: 'Send', pl: 'Wyślij' },
+  'ai.planTitle': { en: 'Weekly Workout Plan', pl: 'Plan treningowy na tydzień' },
+  'ai.weekOf': { en: 'Week of', pl: 'Tydzień od' },
+  'ai.syncCalendar': { en: 'Sync to Calendar', pl: 'Synchronizuj z kalendarzem' },
+  'ai.noPlan': { en: 'No plan yet', pl: 'Brak planu' },
+  'ai.noPlanDesc': { en: 'Start a conversation with the AI coach to generate your personalized weekly plan.', pl: 'Rozpocznij rozmowę z trenerem AI, aby wygenerować spersonalizowany plan na tydzień.' },
+  'ai.exercises': { en: 'Exercises', pl: 'Ćwiczenia' },
+  'ai.rest': { en: 'Rest', pl: 'Przerwa' },
+  'ai.weeklySummary': { en: 'Weekly Summary', pl: 'Podsumowanie tygodnia' },
+  'ai.totalTime': { en: 'Total time', pl: 'Łączny czas' },
+  'ai.totalCal': { en: 'Calories', pl: 'Kalorie' },
+  'ai.workoutDays': { en: 'Training days', pl: 'Dni treningowe' },
+  'ai.loginRequired': { en: 'Login Required', pl: 'Wymagane logowanie' },
+  'ai.loginDesc': { en: 'Please log in to use the AI training coach.', pl: 'Zaloguj się, aby korzystać z trenera AI.' },
 } as const
 
 export type TranslationKey = keyof typeof translations
