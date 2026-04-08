@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '../../../prisma/db'
 
-const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY || ''
+const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY
 const CLAUDE_URL = 'https://api.anthropic.com/v1/messages'
 
 // GET — load chat history + ALL week plans
@@ -65,6 +65,11 @@ export async function POST(request: NextRequest) {
       role: m.role as 'user' | 'assistant',
       content: m.content,
     }))
+
+    if (!CLAUDE_API_KEY) {
+      console.error('Missing Claude API key in environment variables')
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+    }
 
     // Call Claude API
     const claudeResponse = await fetch(CLAUDE_URL, {
