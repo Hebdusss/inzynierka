@@ -40,3 +40,4 @@ next-env.d.ts
 # AWS CLI installation files
 terraform/aws/
 terraform/awscliv2.zip
+\n# Terraform local cache\nterraform/.terraform/
