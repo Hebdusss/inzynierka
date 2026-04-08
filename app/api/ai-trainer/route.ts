@@ -66,6 +66,11 @@ export async function POST(request: NextRequest) {
       content: m.content,
     }))
 
+    if (!CLAUDE_API_KEY) {
+      console.error('Missing Claude API key in environment')
+      return NextResponse.json({ error: 'Claude API key not configured' }, { status: 500 })
+    }
+
     // Call Claude API
     const claudeResponse = await fetch(CLAUDE_URL, {
       method: 'POST',
